@@ -31,15 +31,17 @@ def parse_feed(filename):
     return usagePoints
 
 if __name__ == '__main__':
-    ups = parse_feed(sys.argv[1])
+    #ups = parse_feed(sys.argv[1])
+    ups = parse_feed('CEN_H_SDSU_10059_CONSUMPTION_20160926_09262016143000_ESPI1-0_01-01.xml')
+    print(ups)
     for up in ups:
-        print 'UsagePoint (%s) %s %s:' % (up.title, up.serviceCategory.name, up.status)
+        print ('UsagePoint (%s) %s %s:' % (up.title, up.serviceCategory.name, up.status))
         for mr in up.meterReadings:
-            print '  Meter Reading (%s) %s:' % (mr.title, mr.readingType.uom.name)
+            print ('  Meter Reading (%s) %s:' % (mr.title, mr.readingType.uom.name))
             for ir in mr.intervalReadings:
-                print '    %s, %s: %s %s' % (ir.timePeriod.start, ir.timePeriod.duration, ir.value, ir.value_symbol),
+                print ('    %s, %s: %s %s' % (ir.timePeriod.start, ir.timePeriod.duration, ir.value, ir.value_symbol))
                 if ir.cost is not None:
-                    print '(%s%s)' % (ir.cost_symbol, ir.cost),
+                    print ('(%s%s)' % (ir.cost_symbol, ir.cost))
                 if len(ir.readingQualities) > 0:
-                    print '[%s]' % ', '.join([rq.quality.name for rq in ir.readingQualities]),
+                    print ('[%s]' % ', '.join([rq.quality.name for rq in ir.readingQualities]))
                 print
